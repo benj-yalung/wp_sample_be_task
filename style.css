@@ -11,3 +11,22 @@ Updated: 2024-02-12 09:22:31
 
 */
 
+/* Add this to your child theme's style.css file */
+
+.site-navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.site-navigation li {
+    float: left;
+}
+
+.site-navigation li a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
