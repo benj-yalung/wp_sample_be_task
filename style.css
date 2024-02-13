@@ -64,6 +64,18 @@ Updated: 2024-02-12 09:22:31
     padding: 0;
 }
 
+.hero__weather-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero__weather-image img {
+    width: 50%;
+    border-radius: 10px !important;
+    margin: auto;
+}
+
 #site-header .site-title a {
     color: #fff;
 }

@@ -55,6 +55,27 @@ function acf_plugin_not_active_notice() {
     <?php
 }
 
+if ( ! shortcode_exists( 'list-portfolio' ) ) {
+    add_shortcode( 'list-portfolio', 'listPortfolio' );
+}
+
+if ( ! function_exists('listPortfolio') ) {
+    /**
+     * List the cpt "portfolio"
+     */
+    function listPortfolio() {
+        $portfolios = get_posts(array(
+            'post_type' => 'portfolio',
+            'posts_per_page' => 2
+        ));
+        $args = array(
+            'portfolios' => $portfolios
+        );
+
+        get_template_part( 'template-parts/list-portfolio', args: $args);
+    }
+}
+
 if ( ! function_exists( 'data_get' ) ) {
     function data_get(mixed $data, string $key, mixed $default = null) {
         foreach ( explode('.', $key) as $segment ) {
@@ -97,7 +118,7 @@ if ( ! function_exists( 'curl_request' ) ) {
 
 if ( ! function_exists( 'request_weather_data' ) ) {
     function request_weather_data() {
-        $url = 'https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m';
+        $url = 'https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,precipitation,cloud_cover,wind_speed_10m';
         return curl_request($url);
     }
 }
@@ -112,6 +133,30 @@ if ( ! function_exists( 'prepare_weather_data' ) ) {
         $temperatureUnit = data_get($weatherData, 'current_units.temperature_2m');
         $temperatureValue = data_get($weatherData, 'current.temperature_2m');
 
+        $cloudUnit = data_get($weatherData, 'current_units.cloud_cover');
+        $cloudValue = data_get($weatherData, 'current.cloud_cover');
+
+        $currenTime = data_get($weatherData, 'current.time');
+
+        $urlPrefix = trailingslashit( get_stylesheet_directory_uri() );
+        $cloudCovers = array(
+            "Clear sky" => array(0, 10, $urlPrefix . 'images/clear_sky.jpg'),
+            "Few clouds" => array(11, 25, $urlPrefix . 'images/few_cloud.jpg'),
+            "Scattered clouds" => array(26, 50, $urlPrefix . 'images/scatterd_clouds.jpg'),
+            "Broken clouds" => array(51, 84, $urlPrefix . 'images/broken_clouds.jpg'),
+            "Cloudy" => array(85, 100, $urlPrefix . 'images/cloudy.jpg'),
+        );
+
+        $cloudCover = '';
+        $cloudImage = '';
+        foreach( $cloudCovers as $description => $range ) {
+            if ( $cloudValue >= $range[0] && $cloudValue <= $range[1] ) {
+                $cloudCover = $description;
+                $cloudImage = $range[2];
+                break;
+            }
+        }
+
         if ($isDisplay) {
             return 'Wind Speed: ' . $windSpeedValue . $windSpeedUnit . ' | ' . 'Temperature: ' . $temperatureValue . $temperatureUnit;
         }
@@ -120,7 +165,11 @@ if ( ! function_exists( 'prepare_weather_data' ) ) {
             'wind' => $windSpeedValue . $windSpeedUnit,
             'windLabel' => 'Wind Speed: ' . $windSpeedValue . $windSpeedUnit,
             'temperature' => $temperatureValue . $temperatureUnit,
-            'temperatureLabel' => 'Temperature: ' . $temperatureValue . $temperatureUnit
+            'temperatureLabel' => 'Temperature: ' . $temperatureValue . $temperatureUnit,
+            'cloud' => $cloudValue . $cloudUnit,
+            'cloudLabel' => $cloudCover,
+            'cloudImage' => $cloudImage,
+            'currentTime' => date('F j, Y h:i A', strtotime($currenTime))
         );
     }
 }
@@ -134,5 +183,17 @@ if ( ! shortcode_exists( 'weather-data' ) ) {
         );
 
         get_template_part( 'template-parts/weather-data', args: $args);
+    }
+}
+
+if ( ! shortcode_exists( 'weather-image' ) ) {
+    add_shortcode( 'weather-image', 'weather_image' );
+
+    function weather_image() {
+        $args = array(
+            'data' => prepare_weather_data()
+        );
+
+        get_template_part( 'template-parts/weather-image', args: $args);
     }
 }
