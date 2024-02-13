@@ -31,19 +31,19 @@ $portfolios = data_get($args, 'portfolios', []);
             <div class="portfolios__item">
                 <?php if ( $images ): ?>
                     <div class="portfolios__item-images">
-                        <?php foreach($images as $imageKey => $image): ?>
-                            <img
-                                src="<?php echo $image; ?>"
-                                alt="Portfolio Image <?php echo $imageKey; ?>"
-                            />
-                        <?php endforeach; ?>
+                        <img
+                            src="<?php echo $images[0]; ?>"
+                            alt="Portfolio Image"
+                        />
                     </div>
                 <?php endif; ?>
 
-                <p class="portfolio__item-title"><?php echo $title; ?></p>
-                <p class="portfolio__item-description"><?php echo $description; ?></p>
-                <p class="portfolio__item-date"><?php echo $date; ?></p>
-                <p class="portfolio__item-project-ink"><?php echo $projectLink; ?></p>
+                <div class="portfolio__item-content">
+                    <p class="portfolio__item-title"><?php echo $title; ?></p>
+                    <p class="portfolio__item-description"><?php echo $description; ?></p>
+                    <p class="portfolio__item-date"><?php echo $date; ?></p>
+                    <a href="<?php echo $projectLink; ?>" class="portfolio__item-project-ink"><?php echo $projectLink; ?></a>
+                </div>
             </div>
         <?php endforeach; ?>
     </div>
