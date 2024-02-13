@@ -29,6 +29,7 @@ Updated: 2024-02-12 09:22:31
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    color: #fff;
 }
 
 .portfolios {
@@ -55,5 +56,14 @@ Updated: 2024-02-12 09:22:31
 
 .hero__weather p {
     margin: 0;
+    color: #fff;
+}
+
+.header__container {
+    background-color: #00756A;
+    padding: 0;
+}
+
+#site-header .site-title a {
     color: #fff;
 }
