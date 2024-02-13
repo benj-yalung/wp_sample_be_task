@@ -47,3 +47,13 @@ Updated: 2024-02-12 09:22:31
     grid-template-columns: repeat(3, 1fr);
     gap: 1em;
 }
+
+.hero__weather {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero__weather p {
+    margin: 0;
+    color: #fff;
+}

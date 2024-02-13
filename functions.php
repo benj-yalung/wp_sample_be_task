@@ -78,23 +78,6 @@ if ( ! function_exists( 'data_get' ) ) {
     }
 }
 
-if ( ! function_exists('listPortfolio') ) {
-    /**
-     * List the cpt "portfolio"
-     */
-    function listPortfolio() {
-        $portfolios = get_posts(array(
-            'post_type' => 'portfolio',
-            'posts_per_page' => 2
-        ));
-        $args = array(
-            'portfolios' => $portfolios
-        );
-
-        get_template_part( 'template-parts/list-portfolio', args: $args);
-    }
-}
-
 if ( ! function_exists( 'curl_request' ) ) {
     function curl_request( string $url, mixed $post_data = null ) {
         $ch = curl_init();
@@ -135,7 +118,21 @@ if ( ! function_exists( 'prepare_weather_data' ) ) {
 
         return array(
             'wind' => $windSpeedValue . $windSpeedUnit,
-            'temperature' => $temperatureValue . $temperatureUnit
+            'windLabel' => 'Wind Speed: ' . $windSpeedValue . $windSpeedUnit,
+            'temperature' => $temperatureValue . $temperatureUnit,
+            'temperatureLabel' => 'Temperature: ' . $temperatureValue . $temperatureUnit
         );
+    }
+}
+
+if ( ! shortcode_exists( 'weather-data' ) ) {
+    add_shortcode( 'weather-data', 'weather_data' );
+
+    function weather_data() {
+        $args = array(
+            'data' => prepare_weather_data()
+        );
+
+        get_template_part( 'template-parts/weather-data', args: $args);
     }
 }
