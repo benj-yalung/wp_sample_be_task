@@ -55,11 +55,46 @@ function acf_plugin_not_active_notice() {
     <?php
 }
 
+if ( ! function_exists('data_get') ) {
+    function data_get(mixed $data, string $key, mixed $default = null) {
+        foreach ( explode('.', $key) as $segment ) {
+            if ( is_object( $data ) ) {
+                if ( ! isset( $data->{$segment} ) ) {
+                    return $default;
+                }
+
+                $data = $data->{$segment};
+            } elseif ( is_array( $data ) ) {
+                if ( ! isset( $data[$segment] ) ) {
+                    return $default;
+                }
+                $data = $data[$segment];
+            } else {
+                return $default;
+            }
+        }
+
+        return $data;
+    }
+}
+
+if ( ! shortcode_exists( 'list-portfolio' ) ) {
+    add_shortcode( 'list-portfolio', 'listPortfolio' );
+}
+
 if ( ! function_exists('listPortfolio') ) {
     /**
      * List the cpt "portfolio"
      */
     function listPortfolio() {
-        // TODO: Get portfolio post types
+        $portfolios = get_posts(array(
+            'post_type' => 'portfolio',
+            'posts_per_page' => 2
+        ));
+        $args = array(
+            'portfolios' => $portfolios
+        );
+
+        get_template_part( 'template-parts/list-portfolio', args: $args);
     }
 }

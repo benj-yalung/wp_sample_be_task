@@ -30,3 +30,18 @@ Updated: 2024-02-12 09:22:31
     padding: 14px 16px;
     text-decoration: none;
 }
+
+.portfolios {
+    display: flex;
+    flex-direction: column;
+}
+
+.portfolios .portfolios__item:first-of-type {
+    margin-bottom: 2em;
+}
+
+.portfolios .portfolios__item-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+}
