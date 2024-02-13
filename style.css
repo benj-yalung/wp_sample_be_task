@@ -97,3 +97,42 @@ Updated: 2024-02-12 09:22:31
 #site-header .site-title a {
     color: #fff;
 }
+
+.blue-background{
+    background-size: 100% 200%!important;
+}
+
+.contact-form input[type=date], .contact-form input[type=email], .contact-form  input[type=number], .contact-form  input[type=password], .contact-form  input[type=search], .contact-form  input[type=tel], .contact-form  input[type=text], .contact-form  input[type=url], .contact-form  select, .contact-form  textarea {   
+    border: 1px solid #c4cfde;
+    border-radius: 8px;
+    color: #333e49;
+    font-size: 16px;
+    font-size: 1.6rem;
+    height: 64px;
+    line-height: 24px;
+    line-height: 2.4rem;
+    padding: 8px 24px;
+    margin-bottom:20px;
+}
+
+.contact-form ::placeholder {
+    color: #333e49;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom:10px;
+}
+
+.contact-form [type=button],
+.contact-form [type=submit],
+.contact-form button{
+    font-family: "Helvetica", Sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: #00756A;
+    color:white;
+    border:none;
+}
+
+form.contact-form {
+    text-align: center;
+}
