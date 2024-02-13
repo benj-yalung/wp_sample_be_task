@@ -38,9 +38,9 @@ $tagline   = get_bloginfo( 'description', 'display' );
 	<nav class="site-navigation">
 		<ul>
 			<li><a href="/">Home</a></li>
-			<li><a href="#">About</a></li>
-			<li><a href="#">Services</a></li>
 			<li><a href="#">Contact</a></li>
+			<li><a href="/portfolio-list">Portfolio</a></li>
+			<li><a href="#!"><?php echo prepare_weather_data(true); ?></a></li>
 		</ul>
 	</nav>
 </header>

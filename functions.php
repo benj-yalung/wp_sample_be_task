@@ -55,7 +55,7 @@ function acf_plugin_not_active_notice() {
     <?php
 }
 
-if ( ! function_exists('data_get') ) {
+if ( ! function_exists( 'data_get' ) ) {
     function data_get(mixed $data, string $key, mixed $default = null) {
         foreach ( explode('.', $key) as $segment ) {
             if ( is_object( $data ) ) {
@@ -96,5 +96,50 @@ if ( ! function_exists('listPortfolio') ) {
         );
 
         get_template_part( 'template-parts/list-portfolio', args: $args);
+    }
+}
+
+if ( ! function_exists( 'curl_request' ) ) {
+    function curl_request( string $url, mixed $post_data = null ) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    
+        if ($post_data !== null) {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        }
+        $output = curl_exec($ch);
+        curl_close($ch);
+    
+        return $output;
+    }
+}
+
+if ( ! function_exists( 'request_weather_data' ) ) {
+    function request_weather_data() {
+        $url = 'https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m';
+        return curl_request($url);
+    }
+}
+
+if ( ! function_exists( 'prepare_weather_data' ) ) {
+    function prepare_weather_data(bool $isDisplay = false) {
+        $weatherData = json_decode(request_weather_data());
+
+        $windSpeedUnit = data_get($weatherData, 'current_units.wind_speed_10m');
+        $windSpeedValue = data_get($weatherData, 'current.wind_speed_10m');
+
+        $temperatureUnit = data_get($weatherData, 'current_units.temperature_2m');
+        $temperatureValue = data_get($weatherData, 'current.temperature_2m');
+
+        if ($isDisplay) {
+            return 'Wind Speed: ' . $windSpeedValue . $windSpeedUnit . ' | ' . 'Temperature: ' . $temperatureValue . $temperatureUnit;
+        }
+
+        return array(
+            'wind' => $windSpeedValue . $windSpeedUnit,
+            'temperature' => $temperatureValue . $temperatureUnit
+        );
     }
 }
