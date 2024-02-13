@@ -78,10 +78,6 @@ if ( ! function_exists( 'data_get' ) ) {
     }
 }
 
-if ( ! shortcode_exists( 'list-portfolio' ) ) {
-    add_shortcode( 'list-portfolio', 'listPortfolio' );
-}
-
 if ( ! function_exists('listPortfolio') ) {
     /**
      * List the cpt "portfolio"
