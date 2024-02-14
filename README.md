@@ -1,7 +1,7 @@
 ### Setup Installation Guide:
 
 Files:
-[Download link](https://we.tl/t-zcl0IIKgxi)
+[Download link](https://drive.google.com/drive/folders/1z5ad4UxBC5YEGmohdv8S7dErghWh2rWU?usp=sharing)
 
 Setup steps:
 1. Download the files above.
